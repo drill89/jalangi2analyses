@@ -33,7 +33,7 @@
         var RuntimeDB = sandbox.RuntimeDB;
         var db = new RuntimeDB();
 
-        var warning_limit = 30;
+        var warning_limit = Number.MAX_VALUE;
         var ACCESS_THRESHOLD = 999;
 
         // ---- JIT library functions start ----
@@ -69,6 +69,7 @@
                         if(binaryUndefinedDB[prop].count > ACCESS_THRESHOLD) {
                             binaryUndefinedArr.push({'iid': prop, 'count': binaryUndefinedDB[prop].count});
                             num++;
+                            sandbox.JITProf.addWarnings();
                         }
                     }
                 }

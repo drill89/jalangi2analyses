@@ -100,7 +100,7 @@
             allWarnings.forEach(function(w) {
                 console.log("DLint warning: " + w.details);
             });
-	    console.log("Number of DLint warnings:"+allWarnings.length);
+		console.log("Number of DLint warnings:"+allWarnings.length);
         };
 
         function summarizeWarnings() {

@@ -412,6 +412,7 @@
             var num = 0;
             for (var i = 0; i < iidArray.length; i++) {
                 var iid = iidArray[i].iid; num++;
+                sandbox.JITProf.addWarnings();
                 // print location
                 sandbox.log('location: ' + iidToLocation(iid));
                 sandbox.log('\t[Oper-Count]:\t' + reportDB[iid].count);
@@ -490,6 +491,7 @@
             for(var iid in failArraySource){
                 if(HOP(failArraySource, iid)){
                     sandbox.log('[x]\t' + iidToLocation(iid) + '\t' + failArraySource[iid]);
+                    sandbox.JITProf.addWarnings();
                 }
             }
 

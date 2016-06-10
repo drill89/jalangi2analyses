@@ -40,7 +40,7 @@
         var db = new RuntimeDB();
         var Utils = sandbox.Utils;
 
-        var warning_limit = 30;
+        var warning_limit = Number.MAX_VALUE;
 
         // ---- JIT library functions start ----
 
@@ -114,6 +114,7 @@
                     if (HOP(switchArrTypeDB, prop)) {
                         switchArrTypeArr.push({'iid': prop, 'count': switchArrTypeDB[prop].count});
                         num++;
+                        sandbox.JITProf.addWarnings();
                     }
                 }
                 switchArrTypeArr.sort(function compare(a, b) {

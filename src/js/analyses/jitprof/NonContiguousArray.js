@@ -40,7 +40,7 @@
         var db = new RuntimeDB();
         var Utils = sandbox.Utils;
 
-        var warning_limit = 30;
+        var warning_limit = Number.MAX_VALUE;
         var ACCESS_THRESHOLD = 999;
 
         // ---- JIT library functions start ----
@@ -76,6 +76,7 @@
                         if(incontArrDB[prop].count > ACCESS_THRESHOLD) {
                             incontArrDBArr.push({'iid': prop, 'count': incontArrDB[prop].count});
                             num++;
+                            sandbox.JITProf.addWarnings();
                         }
                     }
                 }

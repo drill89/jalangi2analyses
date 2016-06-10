@@ -171,6 +171,7 @@
 
             //reorganize iidToInfo
             iidToInfo = Utils.reorganizeDebugInfo(iidToInfo);
+console.log('inside checkNan');
             var warnings = Object.keys(iidToCount).map(function(iid) {
                 var location = iidToLocation(iid);
                 var ret = new DLintWarning("CheckNaN", iid, location, "Observed NaN at " + location + " " + iidToCount[iid] + " time(s).", iidToCount[iid]);

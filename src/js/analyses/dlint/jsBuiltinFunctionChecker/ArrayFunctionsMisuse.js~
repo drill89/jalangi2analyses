@@ -435,11 +435,13 @@
         );
 
         this.invokeFun = function(iid, f, base, args, result, isConstructor, isMethod) {
+
             arguments[0] = sandbox.getGlobalIID(iid);
             checkFunction(f, arguments);
         };
 
         this.endExecution = function() {
+	    console.log('arrayfunctionmisuse');
             iidToInfo = Utils.reorganizeDebugInfo(iidToInfo);
             var warnings = Object.keys(iidToCount).map(function(iid) {
                 var location = iidToLocation(iid);

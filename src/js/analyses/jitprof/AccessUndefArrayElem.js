@@ -45,7 +45,7 @@
         var db = new RuntimeDB();
         var Utils = sandbox.Utils;
 
-        var warning_limit = 30;
+        var warning_limit = Number.MAX_VALUE;
         var ACCESS_THRESHOLD = 0;
 
         // ---- JIT library functions start ----
@@ -85,6 +85,7 @@
                     if (HOP(uninitArrDB, prop)) {
                         if(uninitArrDB[prop].count > ACCESS_THRESHOLD) {
                             jitUninitArr.push({'iid': prop, 'count': uninitArrDB[prop].count});
+                            sandbox.JITProf.addWarnings();
                             num++;
                         }
                     }

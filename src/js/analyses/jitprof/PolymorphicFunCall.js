@@ -73,6 +73,7 @@
             for (var i = 0; i < array.length; i++) {
                 var iid = array[i].iid;
                 warning_num++;
+                sandbox.JITProf.addWarnings();
                 sandbox.log('<b>Polymorphic binary operation at ' + iidToLocation(iid) + '</b>');
                 sandbox.log('\tHit: ' + array[i].hit + '\tMiss: ' + array[i].miss);
                 var len = array[i].types.length;
@@ -106,6 +107,7 @@
             for (var i = 0; i < array.length; i++) {
                 var iid = array[i].iid;
                 warning_num++;
+                sandbox.JITProf.addWarnings();
                 sandbox.log('<b>Polymorphic unary operation at ' + iidToLocation(iid) + '</b>');
                 sandbox.log('\tHit: ' + array[i].hit + '\tMiss: ' + array[i].miss);
                 var len = array[i].types.length;

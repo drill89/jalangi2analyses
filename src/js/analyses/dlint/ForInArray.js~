@@ -60,6 +60,7 @@
         }
 
         this.forinObject = function(iid, val) {
+	console.log('ForInArray forinObject');
             iid = sandbox.getGlobalIID(iid);
             if (isArray(val)) {
                 iidToCount[iid] = (iidToCount[iid] | 0) + 1;
@@ -72,6 +73,7 @@
                 return new DLintWarning("ForInArray", iid, location, "Iterating over array with for-in at " + location + " " + iidToCount[iid] + " time(s).", iidToCount[iid]);
             });
             sandbox.DLint.addWarnings(warnings);
+		console.log('ForInArray endExecution');
         };
     }
     sandbox.analysis = new MyAnalysis();
