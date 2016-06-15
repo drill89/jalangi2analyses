@@ -86,8 +86,11 @@
             // 1) write warnings to file
             if (sandbox.Constants.isBrowser) {
                 // sandbox.Results.execute()
-		console.log('PostAnalysis');
+                console.log('PostAnalysis');
                 showWarningOnWebPage(allWarnings);
+                if (typeof ResultSummarizerClient !== "undefined") {
+                    ResultSummarizerClient.sendToServer(allWarnings, 1500);
+                }
             } else {
 
                 var fs = require("fs");
@@ -100,11 +103,11 @@
             allWarnings.forEach(function(w) {
                 console.log("DLint warning: " + w.details);
             });
-	    console.log("Number of DLint warnings:"+allWarnings.length);
+            console.log("Number of DLint warnings:" + allWarnings.length);
         };
 
         function summarizeWarnings() {
-            if(!(sandbox.DLint) || !(sandbox.DLint.allWarnings)) return [];
+            if (!(sandbox.DLint) || !(sandbox.DLint.allWarnings)) return [];
             var warnings = sandbox.DLint.allWarnings;
             warnings.sort(function(a, b) {
                 return b.count - a.count;
