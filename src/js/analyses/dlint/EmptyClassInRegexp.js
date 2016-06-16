@@ -66,7 +66,7 @@
 (function(sandbox) {
     function MyAnalysis() {
         var iidToLocation = sandbox.iidToLocation;
-        var DLintWarning = sandbox.DLint.DLintWarning;
+        var Warning = sandbox.WarningSummary.Warning;
 
         var iidToCount = {}; // iid: number --> count: number
         var REGEXP_CONSTRUCTOR = RegExp;
@@ -99,9 +99,9 @@
         this.endExecution = function() {
             var warnings = Object.keys(iidToCount).map(function(iid) {
                 var location = iidToLocation(iid);
-                return new DLintWarning("EmptyClassInRegexp", iid, location, "Constructing regular expression with empty character class at " + location + " " + iidToCount[iid] + " time(s).", iidToCount[iid]);
+                return new Warning("EmptyClassInRegexp", iid, location, "Constructing regular expression with empty character class at " + location + " " + iidToCount[iid] + " time(s).", iidToCount[iid]);
             });
-            sandbox.DLint.addWarnings(warnings);
+            sandbox.WarningSummary.addWarnings(warnings);
         };
     }
     sandbox.analysis = new MyAnalysis();

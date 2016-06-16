@@ -40,6 +40,8 @@
         var hasGetterSetter = Constants.hasGetterSetter;
         var sort = Array.prototype.sort;
 
+        var Warning = sandbox.WarningSummary.Warning;
+
         var info = {};
 
         var root = {};
@@ -352,13 +354,15 @@
             var len = tmp.length;
             var num = 0;
             var layout_num = 0;
+            var warnings = [];
             for (var i = 0; i < len && i < warning_limit; i++) {
                 var x = tmp[i];
                 if (x.count > MIN_CACHE_HITS) {
                     var meta = x.meta;
                     num++;
-                    sandbox.JITProf.addWarnings();
                     sandbox.log("<b>property access at " + iidToLocation(x.iid) + " has missed cache " + x.count + " time(s).</b>");
+                    var warning = new Warning("TrackHiddenClass", x.iid, iidToLocation(x.iid), "Cache miss for hidden class", x.count);
+                    warnings.push(warning);
                     var access_report_num = 0;
                     print_access:
                     for (var loc in meta.objectLocs) {
@@ -369,7 +373,6 @@
                             }
                             sandbox.log("  accessed property \"" + meta.lastKey.substring(meta.lastKey.indexOf(":") + 1) + "\" of object created at " + iidToLocation(loc) + " " + meta.objectLocs[loc] + " time(s) ");
                             access_report_num++;
-                            sandbox.JITProf.addWarnings();
                         }
                     }
                     var mergeDB = {};
@@ -391,7 +394,6 @@
                             }
                             mergeDB[layout] += '\n' + '\t<div> &nbsp; &nbsp; put field: ' + fieldName + ' observed ' + meta.keysToCount[hiddenKey] + " time(s)</div>";
                             layout_num++;
-//                            sandbox.JITProf.addWarnings();
                         }
                     }
                     for (var layout in mergeDB) {
@@ -401,6 +403,7 @@
                     }
                 }
             }
+            sandbox.WarningSummary.addWarnings(warnings);
         };
 
     }

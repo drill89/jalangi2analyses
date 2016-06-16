@@ -32,6 +32,7 @@
 
         var RuntimeDB = sandbox.RuntimeDB;
         var db = new RuntimeDB();
+        var Warning = sandbox.WarningSummary.Warning;
 
         var warning_limit = Number.MAX_VALUE;
         var ACCESS_THRESHOLD = 999;
@@ -69,20 +70,22 @@
                         if(binaryUndefinedDB[prop].count > ACCESS_THRESHOLD) {
                             binaryUndefinedArr.push({'iid': prop, 'count': binaryUndefinedDB[prop].count});
                             num++;
-                            sandbox.JITProf.addWarnings();
                         }
                     }
                 }
                 binaryUndefinedArr.sort(function compare(a, b) {
                     return b.count - a.count;
                 });
+                var warnings = [];
                 for (var i = 0; i < binaryUndefinedArr.length && i < warning_limit; i++) {
-                    sandbox.log(' * [location: ' + iidToLocation(binaryUndefinedArr[i].iid) + ']: <br/> &nbsp; Number of usages: ' + binaryUndefinedArr[i].count);
+                    var warningEntry = binaryUndefinedArr[i];
+                    sandbox.log(' * [location: ' + iidToLocation(warningEntry.iid) + ']: <br/> &nbsp; Number of usages: ' + warningEntry.count);
+                    var warning = new Warning("BinaryOpOnUndef", warningEntry.iid, iidToLocation(warningEntry.iid), "Binary operation on undefined value", warningEntry.count);
+                    warnings.push(warning);
                 }
+                sandbox.WarningSummary.addWarnings(warnings);
                 sandbox.log('Number of statements that perform binary operation on undefined values: ' + num);
                 sandbox.log('[****]BinaryOpUndef: ' + num);
-
-
             } catch (e) {
                 console.log("error!!");
                 console.log(e);

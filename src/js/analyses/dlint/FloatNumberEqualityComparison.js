@@ -54,7 +54,7 @@
 (function(sandbox) {
     function MyAnalysis() {
         var iidToLocation = sandbox.iidToLocation;
-        var DLintWarning = sandbox.DLint.DLintWarning;
+        var Warning = sandbox.WarningSummary.Warning;
         var Utils = sandbox.Utils;
 
         var iidToCount = {}; // iid: number --> count: number
@@ -110,11 +110,11 @@
             iidToInfo = Utils.reorganizeDebugInfo(iidToInfo);
             var warnings = Object.keys(iidToCount).map(function(iid) {
                 var location = iidToLocation(iid);
-                var ret = new DLintWarning("FloatNumberEqualityComparison", iid, location, "Observed small precision difference between float numbers in euqality comparison operation " + location + " " + iidToCount[iid] + " time(s).", iidToCount[iid]);
+                var ret = new Warning("FloatNumberEqualityComparison", iid, location, "Observed small precision difference between float numbers in euqality comparison operation " + location + " " + iidToCount[iid] + " time(s).", iidToCount[iid]);
                 ret.debugInfo = iidToInfo[iid];
                 return ret;
             });
-            sandbox.DLint.addWarnings(warnings);
+            sandbox.WarningSummary.addWarnings(warnings);
         };
     }
     sandbox.analysis = new MyAnalysis();

@@ -101,14 +101,14 @@
 
             // 2) print warnings to console
             allWarnings.forEach(function(w) {
-                console.log("DLint warning: " + w.details);
+                console.log("Warning: " + w.details);
             });
-            console.log("Number of DLint warnings:" + allWarnings.length);
+            console.log("Number of warnings:" + allWarnings.length);
         };
 
         function summarizeWarnings() {
-            if (!(sandbox.DLint) || !(sandbox.DLint.allWarnings)) return [];
-            var warnings = sandbox.DLint.allWarnings;
+            if (!(sandbox.WarningSummary) || !(sandbox.WarningSummary.allWarnings)) return [];
+            var warnings = sandbox.WarningSummary.allWarnings;
             warnings.sort(function(a, b) {
                 return b.count - a.count;
             });

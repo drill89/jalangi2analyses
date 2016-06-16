@@ -56,6 +56,8 @@
     };
     var arraydb = {};
 
+    var Warning = sandbox.WarningSummary.Warning;
+
     var uint8arr = new Uint8Array(1);
     var uint8clamparr = new Uint8ClampedArray(1);
     var uint16arr = new Uint16Array(1);
@@ -410,12 +412,15 @@
             sandbox.log('-------------Fix Array Refactor Report-------------');
             sandbox.log('<b>Array created at the following locations may be special-typed:</b>');
             var num = 0;
+            var warnings = [];
             for (var i = 0; i < iidArray.length; i++) {
                 var iid = iidArray[i].iid; num++;
-                sandbox.JITProf.addWarnings();
                 // print location
                 sandbox.log('location: ' + iidToLocation(iid));
                 sandbox.log('\t[Oper-Count]:\t' + reportDB[iid].count);
+
+                var warning = new Warning("TypedArray", iid, iidToLocation(iid), "Array could be special-typed", reportDB[iid].count);
+                warnings.push(warning);
 
                 if (readOnlyDB[iid] === true) {
                     sandbox.log('\t[READONLY]');
@@ -483,6 +488,7 @@
                     }
                 }
             }
+            sandbox.WarningSummary.addWarnings(warnings);
             sandbox.log('[****]typedArray: ' + num);
 
             sandbox.log('---------------------------------------------------');
@@ -491,7 +497,6 @@
             for(var iid in failArraySource){
                 if(HOP(failArraySource, iid)){
                     sandbox.log('[x]\t' + iidToLocation(iid) + '\t' + failArraySource[iid]);
-                    sandbox.JITProf.addWarnings();
                 }
             }
 

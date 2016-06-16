@@ -47,7 +47,7 @@
 
         var iidToCount = {}; // iid: number --> count: number
         var iidToLocation = sandbox.iidToLocation;
-        var DLintWarning = sandbox.DLint.DLintWarning;
+        var Warning = sandbox.WarningSummary.Warning;
 
         this.putFieldPre = function(iid, base, offset, val) {
             iid = sandbox.getGlobalIID(iid);
@@ -60,11 +60,11 @@
             console.log(JSON.stringify(iidToCount));
             var warnings = Object.keys(iidToCount).map(function(iid) {
                 var location = iidToLocation(iid);
-                var ret = new DLintWarning("SetFieldOfPrimitive", iid, location, "Observed set field to primitive at " + location + " " + iidToCount[iid] + " time(s).", iidToCount[iid]);
+                var ret = new Warning("SetFieldOfPrimitive", iid, location, "Observed set field to primitive at " + location + " " + iidToCount[iid] + " time(s).", iidToCount[iid]);
                 return ret;
             });
             //console.log(JSON.stringify(warnings));
-            sandbox.DLint.addWarnings(warnings);
+            sandbox.WarningSummary.addWarnings(warnings);
         };
     }
 

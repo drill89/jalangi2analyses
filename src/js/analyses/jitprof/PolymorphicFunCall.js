@@ -50,6 +50,8 @@
 
         var RuntimeDB = sandbox.RuntimeDB;
         var storeDB = new RuntimeDB();
+        var Warning = sandbox.WarningSummary.Warning;
+        var warnings = [];
 
         var warning_num = 0;
         var MISS_THRESHOLD = 999;
@@ -73,7 +75,6 @@
             for (var i = 0; i < array.length; i++) {
                 var iid = array[i].iid;
                 warning_num++;
-                sandbox.JITProf.addWarnings();
                 sandbox.log('<b>Polymorphic binary operation at ' + iidToLocation(iid) + '</b>');
                 sandbox.log('\tHit: ' + array[i].hit + '\tMiss: ' + array[i].miss);
                 var len = array[i].types.length;
@@ -85,6 +86,8 @@
                         '\ttypes: ' + left_type_name + ' ' + array[i].operator + ' ' + right_type_name);
                     }
                 }
+                var warning = new Warning("PolymorphicFunCall", iid, iidToLocation(iid), "Polymorphic binary operation", array[i].miss);
+                warnings.push(warning);
             }
         }
 
@@ -107,7 +110,6 @@
             for (var i = 0; i < array.length; i++) {
                 var iid = array[i].iid;
                 warning_num++;
-                sandbox.JITProf.addWarnings();
                 sandbox.log('<b>Polymorphic unary operation at ' + iidToLocation(iid) + '</b>');
                 sandbox.log('\tHit: ' + array[i].hit + '\tMiss: ' + array[i].miss);
                 var len = array[i].types.length;
@@ -118,6 +120,8 @@
                         '\ttypes:   ' + array[i].operator + ' ' + left_type_name);
                     }
                 }
+                var warning = new Warning("PolymorphicFunCall", iid, iidToLocation(iid), "Polymorphic unary operation", array[i].miss);
+                warnings.push(warning);
             }
         }
 
@@ -129,7 +133,7 @@
                 sandbox.log('Report of Polymorphic Unary Operations:');
                 printPolyUnary(['JIT-checker', 'polymorphic-unary']);
                 sandbox.log('[****]PolyFun: ' + warning_num);
-
+                sandbox.WarningSummary.addWarnings(warnings);
             } catch (e) {
                 console.log("error!!");
                 console.log(e);

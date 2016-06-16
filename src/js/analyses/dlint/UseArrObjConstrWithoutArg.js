@@ -74,7 +74,7 @@
 (function(sandbox) {
     function MyAnalysis() {
         var iidToLocation = sandbox.iidToLocation;
-        var DLintWarning = sandbox.DLint.DLintWarning;
+        var Warning = sandbox.WarningSummary.Warning;
 
         var iidToCount = {}; // iid: number --> count: number
         var ARRAY_CONSTRUCTOR = Array;
@@ -94,11 +94,11 @@
         this.endExecution = function() {
             var warnings = Object.keys(iidToCount).map(function(iid) {
                 var location = iidToLocation(iid);
-                return new DLintWarning("UseArrObjConstrWithoutArg", iid, location, 
+                return new Warning("UseArrObjConstrWithoutArg", iid, location,
                     "Use Array or Object constructor without arguments at " + 
                     location + " " + iidToCount[iid] + " time(s).", iidToCount[iid]);
             });
-            sandbox.DLint.addWarnings(warnings);
+            sandbox.WarningSummary.addWarnings(warnings);
         };
     }
     sandbox.analysis = new MyAnalysis();
