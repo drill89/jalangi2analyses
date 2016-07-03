@@ -88,9 +88,12 @@
                 // sandbox.Results.execute()
                 console.log('PostAnalysis');
                 showWarningOnWebPage(allWarnings);
-                if (typeof ResultSummarizerClient !== "undefined") {
-                    ResultSummarizerClient.sendToServer(allWarnings, 1500);
-                }
+                //if (typeof ResultSummarizerClient !== "undefined") {
+                  //  ResultSummarizerClient.sendToServer(allWarnings);
+                //}
+		if (typeof ResultSummarizerClient !== "undefined") {
+			ResultSummarizerClient.postAnalysis(allWarnings);
+		}
             } else {
 
                 var fs = require("fs");
